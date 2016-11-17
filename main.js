@@ -2,8 +2,20 @@ window.onload = init;
 
 function init() {
 	var gameDiv = document.getElementById('game');
+	var ballAttribs = {
+					'r': '20',
+					'cy': '100',
+					'cx': '100',
+				}
 
-	svg = Arkanoid.buildSVG('1000', '500',gameDiv);
+	var svgAttribs = {
+					'width': '1000',
+					'height': '500',
+					'style' : 'border: 1px solid black'
+				}
+
+
+	svg = Arkanoid.buildSVG(svgAttribs, gameDiv);
 	game = Arkanoid.startGame();
-	Arkanoid.createBall('50','50','20', 5, svg.element, game);
+	Arkanoid.createBall(ballAttribs, svg, 5, game);
 }

@@ -1,23 +1,22 @@
 class Arkanoid {
 
-	static buildSVG(width, height, parent) {
+	static buildSVG(attribs, parent) {
 		/*
 			Build the graphic screen.
 			@Return: object.
 		*/
-		let svg = new Svg(width, height, parent);
+		let svg = new Svg(attribs, parent);
 		svg.draw();
 
 		return svg;
 	}
 
-
-	static createBall(Xo, Yo, radius, velocity, svgParent, game) {
+	static createBall(attribs, svgParent, velocity, game) {
 		/*
 			Add ball.
 			@Return: object.
 		*/
-		let ball = new Ball(Xo, Yo, radius, velocity, svgParent);
+		let ball = new Ball(attribs, svgParent, velocity);
 		ball.draw();
 		game.addBall(ball);
 

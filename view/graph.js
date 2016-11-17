@@ -1,24 +1,35 @@
 class Element {
 
-	constructor(attribs) {
+	constructor(attribs, svg) {
 		/*
-		attribs = { 
-					'r': 5,
-					'cy': '300',
-					'cx': '400'
-				}
+			This are the default attribs
+			and parameters, they are a must be
+			to each new element in order to
+			draw(),setPosition() functions to
+			work properly.
 		*/
-		this.attribs = Object.keys(attribs);
+		this.attribs = undefined;
+		this.attribKeys = undefined;
+		this.x = undefined;
+		this.y = undefined;
+		this.xAttrib = undefined;
+		this.yAttrib = undefined;
+		this.parent = undefined;
+		this.element = undefined;
 	}
 
 	draw() {
-		this.setPosition(this.Xo, this.Yo);
-		
+		this.setPosition(this.x, this.y);
+
+		for (let attrib of this.attribKeys) {
+			this.element.setAttribute(attrib, this.attribs[attrib]);
+		}
+		this.parent.appendChild(this.element);
 	}
 
 	setPosition(x,y) {
-		this.element.setAttribute('cx',x);
-		this.element.setAttribute('cy',y);
+		this.element.setAttribute(this.xAttrib,x);
+		this.element.setAttribute(this.yAttrib,y);
 		this.x = x;
 		this.y = y;
 	}
@@ -26,23 +37,18 @@ class Element {
 
 class Ball extends Element {
 
-	constructor(Xo, Yo, radius, velocity, svg) {
-		// TO-DO. Add any attrib with JSON
+	constructor(attribs, svg, velocity) {
 		super();
-		this.velocity = velocity;
-		this.Xo = Xo;
-		this.Yo = Yo;
-		this.x = Xo;
-		this.y = Yo;
-		this.radius = radius;
-		this.svg = svg;
+		this.attribs = attribs;
+		this.attribKeys = Object.keys(attribs);
+		this.x = this.attribs.cx;
+		this.y = this.attribs.cy;
+		this.xAttrib = 'cx';
+		this.yAttrib = 'cy';
+		this.parent = svg.element;
 		this.element = document.createElementNS('http://www.w3.org/2000/svg','circle');
-	}
 
-	draw() {
-		this.setPosition(this.Xo, this.Yo);
-		this.element.setAttribute('r', this.radius);
-		this.svg.appendChild(this.element);
+		this.velocity = velocity;
 	}
 
 	move(v) {
@@ -53,20 +59,13 @@ class Ball extends Element {
 
 }
 
-class Svg {
+class Svg extends Element {
 
-	constructor(width, height, color, parent){
+	constructor(attribs, parent){
+		super();
 		this.parent = parent || document.body;
-		this.width = width;
-		this.height = height;
-		this.color = color;
-	}
-
-	draw() {
+		this.attribs = attribs;
+		this.attribKeys = Object.keys(attribs);
 		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-		this.element.setAttribute("width", this.width);
-		this.element.setAttribute("height", this.height);
-		this.element.style.border = "1px solid black";
-		this.parent.appendChild(this.element);
 	}
 }
