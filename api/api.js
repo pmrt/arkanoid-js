@@ -11,12 +11,12 @@ class Arkanoid {
 		return svg;
 	}
 
-	static createBall(attribs, svgParent, velocity, game) {
+	static createBall(attribs, id, svgParent, velocity, game) {
 		/*
 			Add ball.
 			@Return: object.
 		*/
-		let ball = new Ball(attribs, svgParent, velocity);
+		let ball = new Ball(attribs, id, svgParent, velocity);
 		ball.draw();
 		game.addBall(ball);
 
@@ -31,5 +31,20 @@ class Arkanoid {
 		let game = new Game();
 
 		return game;
+	}
+
+	static move() {
+		/*
+			Move
+		*/
+
+	}
+
+	static getBallsLength(game) {
+		/*
+			Get the number of Balls.
+			@Return: int
+		*/
+		return game.getBallsLength();
 	}
 }

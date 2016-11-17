@@ -37,7 +37,7 @@ class Element {
 
 class Ball extends Element {
 
-	constructor(attribs, svg, velocity) {
+	constructor(attribs, id, svg, velocity) {
 		super();
 		this.attribs = attribs;
 		this.attribKeys = Object.keys(attribs);
@@ -49,6 +49,7 @@ class Ball extends Element {
 		this.element = document.createElementNS('http://www.w3.org/2000/svg','circle');
 
 		this.velocity = velocity;
+		this.element.id = id;
 	}
 
 	move(v) {
@@ -56,7 +57,6 @@ class Ball extends Element {
 		var vy = parseInt(this.element.cy.animVal.value) + v;
 		this.setPosition(vx,vy);
 	}
-
 }
 
 class Svg extends Element {
