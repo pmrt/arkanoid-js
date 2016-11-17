@@ -1,5 +1,7 @@
 class Game {
-
+	/*
+		Game model class.
+	*/
 	constructor(){
 		this.balls = {};
 	}

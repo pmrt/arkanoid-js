@@ -35,7 +35,9 @@ class Arkanoid {
 
 	static move() {
 		/*
-			Move
+			Move the ball element:
+				- Set its new position (View)
+				- Store its new pos. (Model)
 		*/
 
 	}
