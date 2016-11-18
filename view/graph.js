@@ -47,6 +47,7 @@ class Element {
 		that.x = x;
 		that.y = y;
 	}
+
 }
 
 class Brick extends Element {
@@ -72,23 +73,70 @@ class Ball extends Element {
 		this.parent = svg.element;
 		this.element = document.createElementNS('http://www.w3.org/2000/svg','circle');
 
-		this.velocity = velocity;
+		this.vy = velocity;
+		this.vx = velocity;
 		this.element.id = id;
 	}
 
-	move(v) {
+	move() {
 		/*
 			Move the value by the passed 'v' increment.
 		*/
 		// TO-DO: To increment velocity when space press.
-		var vx = parseInt(that.element.cx.animVal.value) + v;
-		var vy = parseInt(that.element.cy.animVal.value) + v;
-		that.setPosition(vx,vy);
+		that.px = parseInt(that.element.cx.animVal.value) + that.vx;
+		that.py = parseInt(that.element.cy.animVal.value) + that.vy;
+
+		if (!that.hasCollide()){
+			that.setPosition(that.px,that.py);
+		}
 		return [that.x, that.y];
 	}
 
-	checkCollision() {
+	hasCollide() {
+		/*
+			Checks for element collision.
+		*/
+		let width = that.parent.width.animVal.value;
+		let height = that.parent.height.animVal.value;
+		let radius = parseInt(that.attribs.r);
 
+		if (width-that.x <= radius) {
+			that.movCorrection('-x', width, radius);
+		} else if (height-that.y <= radius) {
+			that.movCorrection('-y', height, radius);
+		} else if (that.x <= radius) {
+			that.movCorrection('+x', 0, radius);
+		} else if (that.y <= radius) {
+			that.movCorrection('+y', 0, radius);
+		} else {
+			return false;
+		}
+	}
+
+	movCorrection(axis, size, radius) {
+		/*
+			Movement correction when ball
+			collides.
+		*/
+		switch (axis) {
+			case '-x':
+				that.setPosition(size-radius-1, that.py);
+				that.vx *= (-1);
+				break;
+			case '-y':
+				that.setPosition(that.px, size-radius-1);
+				that.vy *= (-1);
+				break;
+			case '+x':
+				that.setPosition(radius+1, that.py);
+				that.vx *= (-1);
+				break;
+			case '+y':
+				that.setPosition(that.px, radius+1);
+				that.vy *= (-1);
+				break;
+		}
+		that.move();
 	}
 }
 

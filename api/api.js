@@ -40,7 +40,7 @@ class Arkanoid {
 				- Store its new pos. (Model)
 		*/
 		for (let i of Object.keys(game.balls)) {
-			let coord = game.balls[i].obj.move(game.balls[i].obj.velocity);
+			let coord = game.balls[i].obj.move();
 			game.setPosition(i, coord[0], coord[1]);
 		}
 	}

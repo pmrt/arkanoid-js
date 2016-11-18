@@ -29,7 +29,6 @@ class Game {
 		*/
 		self.balls[id].x = x;
 		self.balls[id].y = y;
-		console.log(self.balls[id].x);
 	}
 
 	getBallsLength() {
