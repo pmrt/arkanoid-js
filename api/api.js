@@ -23,7 +23,7 @@ class Arkanoid {
 		return ball;
 	}
 
-	static startGame() {
+	static loadGame() {
 		/*
 			Start the game.
 			@Return: object
@@ -33,13 +33,21 @@ class Arkanoid {
 		return game;
 	}
 
-	static move() {
+	static move(game) {
 		/*
 			Move the ball element:
 				- Set its new position (View)
 				- Store its new pos. (Model)
 		*/
+		for (let i of Object.keys(game.balls)) {
+			let coord = game.balls[i].obj.move(game.balls[i].obj.velocity);
+			game.setPosition(i, coord[0], coord[1]);
+		}
+	}
 
+	static getBalls(game){
+		/*
+		*/
 	}
 
 	static getBallsLength(game) {
@@ -48,5 +56,14 @@ class Arkanoid {
 			@Return: int
 		*/
 		return game.getBallsLength();
+	}
+
+	static startGame(game) {
+		/*
+			Start the game.
+		*/
+		setInterval(function() {
+			Arkanoid.move(game)
+		}, 20);
 	}
 }

@@ -1,8 +1,11 @@
+var self;
+
 class Game {
 	/*
 		Game model class.
 	*/
 	constructor(){
+		self = this;
 		this.balls = {};
 	}
 
@@ -24,8 +27,9 @@ class Game {
 			JSON ball to the passed
 			ballObj.
 		*/
-		this.balls.id.x = x;
-		this.balls.id.y = y;
+		self.balls[id].x = x;
+		self.balls[id].y = y;
+		console.log(self.balls[id].x);
 	}
 
 	getBallsLength() {

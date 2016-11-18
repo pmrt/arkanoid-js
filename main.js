@@ -16,6 +16,9 @@ function init() {
 
 
 	svg = Arkanoid.buildSVG(svgAttribs, gameDiv);
-	game = Arkanoid.startGame();
-	Arkanoid.createBall(ballAttribs, 'id1', svg, 5, game);
+	game = Arkanoid.loadGame();
+	Arkanoid.createBall(ballAttribs, 'id1', svg, 3, game);
+
+	Arkanoid.startGame(game);
+
 }

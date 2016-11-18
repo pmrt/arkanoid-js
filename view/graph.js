@@ -1,3 +1,5 @@
+var that;
+
 class Element {
 	/*
 		Element class model.
@@ -40,10 +42,10 @@ class Element {
 		/*
 			Set the element position.
 		*/
-		this.element.setAttribute(this.tagX, x);
-		this.element.setAttribute(this.tagY, y);
-		this.x = x;
-		this.y = y;
+		that.element.setAttribute(that.tagX, x);
+		that.element.setAttribute(that.tagY, y);
+		that.x = x;
+		that.y = y;
 	}
 }
 
@@ -59,6 +61,8 @@ class Ball extends Element {
 	*/
 	constructor(attribs, id, svg, velocity) {
 		super();
+		that = this;
+
 		this.attribs = attribs;
 		this.attribKeys = Object.keys(attribs);
 		this.x = this.attribs.cx;
@@ -76,9 +80,15 @@ class Ball extends Element {
 		/*
 			Move the value by the passed 'v' increment.
 		*/
-		var vx = parseInt(this.element.cx.animVal.value) + v;
-		var vy = parseInt(this.element.cy.animVal.value) + v;
-		this.setPosition(vx,vy);
+		// TO-DO: To increment velocity when space press.
+		var vx = parseInt(that.element.cx.animVal.value) + v;
+		var vy = parseInt(that.element.cy.animVal.value) + v;
+		that.setPosition(vx,vy);
+		return [that.x, that.y];
+	}
+
+	checkCollision() {
+
 	}
 }
 
@@ -88,9 +98,12 @@ class Svg extends Element {
 	*/
 	constructor(attribs, parent){
 		super();
+		that = this;
+
 		this.parent = parent || document.body;
 		this.attribs = attribs;
 		this.attribKeys = Object.keys(attribs);
 		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 	}
 }
+
