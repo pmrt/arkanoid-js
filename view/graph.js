@@ -1,4 +1,4 @@
-var that;
+var self;
 
 class Element {
 	/*
@@ -42,10 +42,10 @@ class Element {
 		/*
 			Set the element position.
 		*/
-		that.element.setAttribute(that.tagX, x);
-		that.element.setAttribute(that.tagY, y);
-		that.x = x;
-		that.y = y;
+		self.element.setAttribute(self.tagX, x);
+		self.element.setAttribute(self.tagY, y);
+		self.x = x;
+		self.y = y;
 	}
 
 }
@@ -62,7 +62,7 @@ class Ball extends Element {
 	*/
 	constructor(attribs, id, svg, velocity) {
 		super();
-		that = this;
+		self = this;
 
 		this.attribs = attribs;
 		this.attribKeys = Object.keys(attribs);
@@ -83,31 +83,36 @@ class Ball extends Element {
 			Move the value by the passed 'v' increment.
 		*/
 		// TO-DO: To increment velocity when space press.
-		that.px = parseInt(that.element.cx.animVal.value) + that.vx;
-		that.py = parseInt(that.element.cy.animVal.value) + that.vy;
+		self.px = parseInt(self.element.cx.animVal.value) + self.vx;
+		self.py = parseInt(self.element.cy.animVal.value) + self.vy;
 
-		if (!that.hasCollide()){
-			that.setPosition(that.px,that.py);
+		if (!self.hasCollide()){
+			self.setPosition(self.px,self.py);
 		}
-		return [that.x, that.y];
+		return [self.x, self.y];
 	}
 
 	hasCollide() {
 		/*
 			Checks for element collision.
-		*/
-		let width = that.parent.width.animVal.value;
-		let height = that.parent.height.animVal.value;
-		let radius = parseInt(that.attribs.r);
 
-		if (width-that.x <= radius) {
-			that.movCorrection('-x', width, radius);
-		} else if (height-that.y <= radius) {
-			that.movCorrection('-y', height, radius);
-		} else if (that.x <= radius) {
-			that.movCorrection('+x', 0, radius);
-		} else if (that.y <= radius) {
-			that.movCorrection('+y', 0, radius);
+			-x : X axis, bottom border
+			-y : Y axis, right border
+			+x : X axis, top border
+			+y : Y axis, left border
+		*/
+		let width = self.parent.width.animVal.value;
+		let height = self.parent.height.animVal.value;
+		let radius = parseInt(self.attribs.r);
+
+		if (width-self.x <= radius) {
+			self.movCorrection('-x', width, radius);
+		} else if (height-self.y <= radius) {
+			self.movCorrection('-y', height, radius);
+		} else if (self.x <= radius) {
+			self.movCorrection('+x', 0, radius);
+		} else if (self.y <= radius) {
+			self.movCorrection('+y', 0, radius);
 		} else {
 			return false;
 		}
@@ -120,23 +125,23 @@ class Ball extends Element {
 		*/
 		switch (axis) {
 			case '-x':
-				that.setPosition(size-radius-1, that.py);
-				that.vx *= (-1);
+				self.setPosition(size-radius-1, self.py);
+				self.vx *= (-1);
 				break;
 			case '-y':
-				that.setPosition(that.px, size-radius-1);
-				that.vy *= (-1);
+				self.setPosition(self.px, size-radius-1);
+				self.vy *= (-1);
 				break;
 			case '+x':
-				that.setPosition(radius+1, that.py);
-				that.vx *= (-1);
+				self.setPosition(radius+1, self.py);
+				self.vx *= (-1);
 				break;
 			case '+y':
-				that.setPosition(that.px, radius+1);
-				that.vy *= (-1);
+				self.setPosition(self.px, radius+1);
+				self.vy *= (-1);
 				break;
 		}
-		that.move();
+		self.move();
 	}
 }
 
@@ -146,7 +151,7 @@ class Svg extends Element {
 	*/
 	constructor(attribs, parent){
 		super();
-		that = this;
+		self = this;
 
 		this.parent = parent || document.body;
 		this.attribs = attribs;
