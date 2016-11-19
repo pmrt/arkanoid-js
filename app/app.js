@@ -1,12 +1,13 @@
-var self;
+var that;
 
 class Game {
 	/*
 		Game model class.
 	*/
-	constructor(){
-		self = this;
+	constructor(svg){
+		that = this;
 		this.balls = {};
+		this.svg = svg;
 	}
 
 	addBall(ballObj) {
@@ -21,14 +22,14 @@ class Game {
 		this.balls[ballObj.element.id] = {'obj': ballObj, 'x': ballObj.x, 'y': ballObj.y};
 	}
 
-	setPosition(id, x, y) {
+	updatePos(id, x, y) {
 		/*
 			Change the position in the
 			JSON ball to the passed
 			ballObj.
 		*/
-		self.balls[id].x = x;
-		self.balls[id].y = y;
+		that.balls[id].x = x;
+		that.balls[id].y = y;
 	}
 
 	getBallsLength() {

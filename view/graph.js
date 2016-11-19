@@ -40,12 +40,12 @@ class Element {
 
 	setPosition(x,y) {
 		/*
-			Set the element position.
+			Set the element position,
+			update its coords.
 		*/
 		self.element.setAttribute(self.tagX, x);
 		self.element.setAttribute(self.tagY, y);
-		self.x = x;
-		self.y = y;
+		self.x = x; self.y = y;
 	}
 
 }
@@ -82,17 +82,13 @@ class Ball extends Element {
 		/*
 			Move the value by the passed 'v' increment.
 		*/
-		// TO-DO: To increment velocity when space press.
 		self.px = parseInt(self.element.cx.animVal.value) + self.vx;
 		self.py = parseInt(self.element.cy.animVal.value) + self.vy;
-
-		if (!self.hasCollide()){
-			self.setPosition(self.px,self.py);
-		}
+		self.setPosition(self.px,self.py);
 		return [self.x, self.y];
 	}
 
-	hasCollide() {
+	hasCollideWith(elementObj) {
 		/*
 			Checks for element collision.
 
@@ -100,6 +96,53 @@ class Ball extends Element {
 			-y : Y axis, right border
 			+x : X axis, top border
 			+y : Y axis, left border
+
+			left = Y - width/2
+			top = X - height/2
+
+			It returns false if it doesn't collide,
+			or corrects the movement if it does.
+
+			Note: May return a not boolean value!
+
+			@Return: false or undefined;
+		*/
+
+		let right = elementObj.y + elementObj.width/2;
+		let bottom = elementObj.x + elementObj.height/2;
+		let left = elementObj.y - elementObj.width/2;
+		let top = elementObj.x - elementObj.height/2;
+
+		let radius = parseInt(self.attribs.r);
+
+		if (right-self.x <= radius) {
+			self.movCorrection('-x', right, radius);
+		} else if (bottom-self.y <= radius) {
+			self.movCorrection('-y', bottom, radius);
+		} else if (self.x <= radius) {
+			self.movCorrection('+x', 0, radius);
+		} else if (self.y <= radius) {
+			self.movCorrection('+y', 0, radius);
+		} else {
+			return false;
+		}
+	}
+
+	hasCollideWithSVG() {
+		/*
+			Checks for element collision.
+
+			-x : X axis, bottom border
+			-y : Y axis, right border
+			+x : X axis, top border
+			+y : Y axis, left border
+
+			It returns false if it doesn't collide,
+			or corrects the movement if it does.
+
+			Note: May return a not boolean value!
+
+			@Return: false or undefined;
 		*/
 		let width = self.parent.width.animVal.value;
 		let height = self.parent.height.animVal.value;
@@ -157,6 +200,10 @@ class Svg extends Element {
 		this.attribs = attribs;
 		this.attribKeys = Object.keys(attribs);
 		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		this.width = parseInt(this.attribs.width);
+		this.height = parseInt(this.attribs.height);
+
+		this.id = 'svg';
 	}
 }
 

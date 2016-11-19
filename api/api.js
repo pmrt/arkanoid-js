@@ -23,12 +23,12 @@ class Arkanoid {
 		return ball;
 	}
 
-	static loadGame() {
+	static loadGame(svg) {
 		/*
 			Start the game.
 			@Return: object
 		*/
-		let game = new Game();
+		let game = new Game(svg);
 
 		return game;
 	}
@@ -38,10 +38,22 @@ class Arkanoid {
 			Move the ball element:
 				- Set its new position (View)
 				- Store its new pos. (Model)
+			TO-DO: To increment velocity when space press.
 		*/
-		for (let i of Object.keys(game.balls)) {
-			let coord = game.balls[i].obj.move();
-			game.setPosition(i, coord[0], coord[1]);
+		for (let ballid of Object.keys(game.balls)) {
+			/*
+				Move the ball if it hasn't Collide with SVG,
+				if it happen to collide it will apply the
+				right movement correction.
+			*/
+			if (!game.balls[ballid].obj.hasCollideWithSVG()) {
+				game.balls[ballid].obj.move();
+			}
+
+			/*
+				Update the ball position in the model
+			*/
+			game.updatePos(ballid, game.balls[ballid].obj.x, game.balls[ballid].obj.y);
 		}
 	}
 
