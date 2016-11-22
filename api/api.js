@@ -28,9 +28,7 @@ class Arkanoid {
 			Start the game.
 			@Return: object
 		*/
-		let game = new Game(svg);
-
-		return game;
+		return new Game(svg);
 	}
 
 	static move(game) {
@@ -38,7 +36,6 @@ class Arkanoid {
 			Move the ball element:
 				- Set its new position (View)
 				- Store its new pos. (Model)
-			TO-DO: To increment velocity when space press.
 		*/
 		for (let ballid of Object.keys(game.balls)) {
 			/*
@@ -79,3 +76,6 @@ class Arkanoid {
 		}, 20);
 	}
 }
+
+// TO-DO: To increment velocity when space press.
+
