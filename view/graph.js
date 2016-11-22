@@ -4,23 +4,19 @@ class Element {
 	/*
 		Element class model.
 	*/
-	constructor(attribs, svg) {
+	constructor(attribs, parent, element, id) {
 		/*
 			This are the default attribs
 			and parameters, they are a must be
 			to each new element in order to
 			draw(),setPosition() functions to
 			work properly.
-
-			this.attribs = undefined;
-			this.attribKeys = undefined;
-			this.x = undefined;
-			this.y = undefined;
-			this.tagX = undefined;
-			this.tagY = undefined;
-			this.parent = undefined;
-			this.element = undefined;
 		*/
+		this.parent = parent || document.body;
+		this.attribs = attribs;
+		this.attribKeys = Object.keys(attribs);
+		this.element = document.createElementNS('http://www.w3.org/2000/svg', element);
+		this.element.id = id;
 	}
 
 	draw() {
@@ -38,7 +34,7 @@ class Element {
 		this.parent.appendChild(this.element);
 	}
 
-	setPosition(x,y) {
+	setPosition(x, y) {
 		/*
 			Set the element position,
 			update its coords.
@@ -47,7 +43,6 @@ class Element {
 		self.element.setAttribute(self.tagY, y);
 		self.x = x; self.y = y;
 	}
-
 }
 
 class Brick extends Element {
@@ -61,21 +56,14 @@ class Ball extends Element {
 		Ball element class.
 	*/
 	constructor(attribs, id, svg, velocity) {
-		super();
+		super(attribs, parent, 'circle', id);
 		self = this;
 
-		this.attribs = attribs;
-		this.attribKeys = Object.keys(attribs);
-		this.x = this.attribs.cx;
-		this.y = this.attribs.cy;
-		this.tagX = 'cx';
-		this.tagY = 'cy';
+		/* Ball individual attribs */
 		this.parent = svg.element;
-		this.element = document.createElementNS('http://www.w3.org/2000/svg','circle');
-
-		this.vy = velocity;
-		this.vx = velocity;
-		this.element.id = id;
+		this.x = this.attribs.cx; this.y = this.attribs.cy;
+		this.tagX = 'cx'; this.tagY = 'cy';
+		this.vx = velocity; this.vy = velocity;
 	}
 
 	move() {
@@ -96,9 +84,6 @@ class Ball extends Element {
 			-y : Y axis, right border
 			+x : X axis, top border
 			+y : Y axis, left border
-
-			left = Y - width/2
-			top = X - height/2
 
 			It returns false if it doesn't collide,
 			or corrects the movement if it does.
@@ -193,17 +178,12 @@ class Svg extends Element {
 		Graphic svg element class.
 	*/
 	constructor(attribs, parent){
-		super();
+		super(attribs, parent, 'svg', 'svg');
 		self = this;
 
-		this.parent = parent || document.body;
-		this.attribs = attribs;
-		this.attribKeys = Object.keys(attribs);
-		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		/* Svg individual attribs */
 		this.width = parseInt(this.attribs.width);
 		this.height = parseInt(this.attribs.height);
-
-		this.id = 'svg';
 	}
 }
 
