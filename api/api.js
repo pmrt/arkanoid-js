@@ -23,6 +23,18 @@ class Arkanoid {
 		return ball;
 	}
 
+	static createPlatform(attribs, svg, velocity, game) {
+		/*
+			Create the platform.
+			@Return: object.
+		*/
+		let platform = new Platform(attribs, svg, velocity);
+		platform.draw();
+		game.addPlatform(platform);
+
+		return platform;
+	}
+
 	static loadGame(svg) {
 		/*
 			Start the game.
@@ -37,13 +49,18 @@ class Arkanoid {
 				- Set its new position (View)
 				- Store its new pos. (Model)
 		*/
+		let collision = false;
+
 		for (let ballid of Object.keys(game.balls)) {
 			/*
 				Move the ball if it hasn't Collide with SVG,
 				if it happen to collide it will apply the
 				right movement correction.
 			*/
-			if (!game.balls[ballid].obj.hasCollideWithSVG()) {
+			collision = game.balls[ballid].obj.hasCollideWithSVG();
+			collision = game.balls[ballid].obj.hasCollideWith(game.platform);
+
+			if (!collision) {
 				game.balls[ballid].obj.move();
 			}
 
@@ -71,9 +88,18 @@ class Arkanoid {
 		/*
 			Start the game.
 		*/
+		Arkanoid.addPlatformEvent(game);
+
 		setInterval(function() {
 			Arkanoid.move(game)
 		}, 20);
+	}
+
+	static addPlatformEvent(game) {
+		/*
+			Add platform event.
+		*/
+		getDocument().addEventListener('keypress', game.platform.move);
 	}
 }
 
